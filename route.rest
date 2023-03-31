@@ -4,3 +4,17 @@ GET http://localhost:3000/tourDates
 
 GET http://localhost:3000/tourDates/15
 
+###
+
+POST http://localhost:3000/tourDates
+Content-Type: application/json
+
+{
+    "date": "2023-04-06",
+    "venue": "Off Cabot",
+    "country": "USA",
+    "state": "MA",
+    "city": "Beverly",
+    "rsvp": "https://www.facebook.com/events/953993599091979",
+    "ticket": "https://www.etix.com/ticket/p/2168918/dead-to-the-core-off-cabot-beverly-off-cabot-comedy-and-events?fbclid=IwAR2vMkzxy6srcCO3Pb8uy3p4li8Okkss3vS1XcPNn8Hh4ADOixB6pfiM72k"
+}
