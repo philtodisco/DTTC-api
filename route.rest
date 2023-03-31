@@ -1,0 +1,6 @@
+GET http://localhost:3000/tourDates
+
+###
+
+GET http://localhost:3000/tourDates/15
+
