@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const tourDatesSchema = new mongoose.Schema({
+const tourDateSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true
@@ -30,3 +30,5 @@ const tourDatesSchema = new mongoose.Schema({
         required: false
     }
 })
+
+module.exports = mongoose.model('Tourdate', tourDateSchema)
