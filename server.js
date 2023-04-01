@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const mongoString = process.env.DATABASE_URL;
+let port = process.env.PORT || 3000
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
@@ -21,6 +22,4 @@ app.use(express.json());
 const tourDatesRouter = require('./routes/tourDates')
 app.use('/tourDates', tourDatesRouter)
 
-app.listen(3000, () => {
-    console.log(`Server Started at ${3000}`)
-})
+app.listen(port, () => console.log(`Listening at http://localhost:${port}`))
