@@ -1,4 +1,4 @@
-GET http://localhost:3000/tourDates
+GET https://dttc-api.herokuapp.com/tourDates
 
 ###
 
@@ -6,7 +6,7 @@ GET http://localhost:3000/tourDates/15
 
 ###
 
-POST http://localhost:3000/tourDates
+POST https://dttc-api.herokuapp.com/tourDates
 Content-Type: application/json
 
 {
