@@ -1,9 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const TourDate = require('../models/tourDate')
+const apiKey = process.env.API_KEY
+
+router.use((req, res, next) => {
+    req.headers.authorization = `Bearer ${apiKey}`;
+    next();
+  });
 
 function checkApiKey(req, res, next) {
-    const apiKeyHeader = process.env.API_KEY
+    const apiKeyHeader = req.headers['x-api-key'];
     if (apiKeyHeader === apiKey) {
       next();
     } else {
