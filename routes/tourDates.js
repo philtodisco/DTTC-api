@@ -2,7 +2,16 @@ const express = require('express')
 const router = express.Router()
 const TourDate = require('../models/tourDate')
 
-router.get('/', async (req, res) => {
+function checkApiKey(req, res, next) {
+    const apiKeyHeader = process.env.API_KEY
+    if (apiKeyHeader === apiKey) {
+      next();
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  }
+  
+router.get('/', checkApiKey, async (req, res) => {
     try {
         const tourDates = await TourDate.find()
         res.json(tourDates)
