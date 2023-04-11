@@ -4,7 +4,7 @@ const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
 
 router.use((req, res, next) => {
-    req.headers.authorization = `Bearer ${apiKey}`;
+    req.headers['x-api-key'] = apiKey;
     next();
   });
 
