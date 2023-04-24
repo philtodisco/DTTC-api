@@ -11,12 +11,12 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
 router.post('/', async (req, res) => {
-    console.log('Email route hit'); 
+    console.log('Email route hit', usr); 
     const { name, email, subject, message } = req.body
 
   // create a Nodemailer transport
   const transporter = nodemailer.createTransport({
-    host: 'smtp.example.com',
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
