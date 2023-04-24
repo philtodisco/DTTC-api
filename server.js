@@ -24,4 +24,7 @@ app.use(express.json());
 const tourDatesRouter = require('./routes/tourDates')
 app.use('/tourDates', tourDatesRouter)
 
+const emailRouter = require('./routes/email')
+app.use('/email', emailRouter)
+
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`))
