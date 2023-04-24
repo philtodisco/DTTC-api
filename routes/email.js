@@ -25,10 +25,12 @@ router.post('/', async (req, res) => {
     }
   })
 
+  const senderEmail = email;
+
   // send email
   try {
     const info = await transporter.sendMail({
-      from: email,
+      from: senderEmail,
       to: usr,
       subject: subject,
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
