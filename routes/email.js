@@ -11,7 +11,8 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
 router.post('/email', async (req, res) => {
-  const { name, email, subject, message } = req.body
+    console.log('Email route hit'); 
+    const { name, email, subject, message } = req.body
 
   // create a Nodemailer transport
   const transporter = nodemailer.createTransport({
