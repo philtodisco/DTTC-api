@@ -10,7 +10,7 @@ const router = express.Router()
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
-router.post('/email', async (req, res) => {
+router.post('/', async (req, res) => {
     console.log('Email route hit'); 
     const { name, email, subject, message } = req.body
 
