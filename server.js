@@ -8,7 +8,7 @@ const mongoString = process.env.DATABASE_URL;
 let port = process.env.PORT || 3000
 
 app.use(cors({
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000/tour'
   }));
 
 mongoose.connect(mongoString);
