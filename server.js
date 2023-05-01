@@ -25,7 +25,7 @@ const tourDatesRouter = require('./routes/tourDates')
 app.use('/tourDates', tourDatesRouter)
 
 const proxyRouter = require('./routes/tourDates')
-app.use('/.proxy', proxyRouterRouter)
+app.use('/.proxy', proxyRouter)
 
 const emailRouter = require('./routes/email')
 app.use('/email', emailRouter)
