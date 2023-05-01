@@ -9,7 +9,7 @@ const apiEndpoint = 'https://dttc-api.herokuapp.com'; // API endpoint
 router.get('/', (req, res) => {
   // Set options for request
   const options = {
-    url: `${apiEndpoint}/tour-dates`, // URL of API endpoint
+    url: `${apiEndpoint}/tourDates`, // URL of API endpoint
     headers: {
       'Authorization': `Bearer ${process.env.API_KEY}` // Authorization token for API
     }
