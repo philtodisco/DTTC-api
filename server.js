@@ -37,6 +37,7 @@ app.get('/api/tourDates', async (req, res) => {
   }
 });
 
+const emailRouter = require('./routes/email')
 app.use('/email', emailRouter)
 
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`))
