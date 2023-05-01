@@ -4,28 +4,42 @@ const axios = require('axios')
 const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
 
-router.use((req, res, next) => {
-    req.headers['x-api-key'] = apiKey;
-    next();
-  });
-
-function checkApiKey(req, res, next) {
-    const apiKeyHeader = req.headers['x-api-key'];
-    if (apiKeyHeader === apiKey) {
-      next();
-    } else {
-      res.status(401).send('Unauthorized');
-    }
-  }
-  
-router.get('/', checkApiKey, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const tourDates = await TourDate.find()
-        res.json(tourDates)
+      const response = await axios.get('https://dttc-api.herokuapp.com/tourDates', {
+        headers: { 'x-api-key': apiKey }
+      })
+      const tourDates = response.data
+      res.json(tourDates)
     } catch (err) {
-        res.status(500).json({ message: err.message })
+      console.error(err)
+      res.status(500).send('Server error')
     }
-})
+  })
+  
+
+// router.use((req, res, next) => {
+//     req.headers['x-api-key'] = apiKey;
+//     next();
+//   });
+
+// function checkApiKey(req, res, next) {
+//     const apiKeyHeader = req.headers['x-api-key'];
+//     if (apiKeyHeader === apiKey) {
+//       next();
+//     } else {
+//       res.status(401).send('Unauthorized');
+//     }
+//   }
+  
+// router.get('/', checkApiKey, async (req, res) => {
+//     try {
+//         const tourDates = await TourDate.find()
+//         res.json(tourDates)
+//     } catch (err) {
+//         res.status(500).json({ message: err.message })
+//     }
+// })
 
 router.get('/:id', (req, res) => {
     res.send(req.params.id)
