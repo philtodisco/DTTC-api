@@ -5,6 +5,7 @@ const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
 
 router.get('/', async (req, res) => {
+    console.log('we are here')
     try {
         console.log('Starting request to external API', apiKey)
         const response = await axios.get('https://dttc-api.herokuapp.com/tourDates', {
