@@ -1,25 +1,25 @@
 const express = require('express')
 const router = express.Router()
-const request = require('request');
+const axios = require('axios')
 const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
 
 router.get('/proxy', (req, res) => {
-    const options = {
-      url: 'https://dttc-api.herokuapp.com/tourDates',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`
-      }
-    };
-  
-    request(options, (error, response, body) => {
-      if (!error && response.statusCode === 200) {
-        res.send(body);
-      } else {
-        res.status(response.statusCode).send(error);
-      }
+  const options = {
+    url: 'https://dttc-api.herokuapp.com/tourDates',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`
+    }
+  };
+
+  axios(options)
+    .then(response => {
+      res.send(response.data);
+    })
+    .catch(error => {
+      res.status(error.response.status).send(error.response.data);
     });
-  });
+});
 
 // router.use((req, res, next) => {
 //     req.headers['x-api-key'] = apiKey;
