@@ -4,44 +4,28 @@ const axios = require('axios')
 const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
 
-// Define a route for the API endpoint
-router.get('/', async (req, res) => {
-    try {
-      const response = await axios.get('https://dttc-api.herokuapp.com/tourDates', {
-        headers: {
-          'Authorization': `Bearer ${apiKey}`
-        }
-      });
-      res.header("Access-Control-Allow-Origin", "*")
-      res.json(response.data)
-    } catch (error) {
-      console.error(error)
-      res.status(error.response.status).send(error.response.data)
-    }
+router.use((req, res, next) => {
+    req.headers['x-api-key'] = apiKey;
+    next();
   });
-  
-// router.use((req, res, next) => {
-//     req.headers['x-api-key'] = apiKey;
-//     next();
-//   });
 
-// function checkApiKey(req, res, next) {
-//     const apiKeyHeader = req.headers['x-api-key'];
-//     if (apiKeyHeader === apiKey) {
-//       next();
-//     } else {
-//       res.status(401).send('Unauthorized');
-//     }
-//   }
+function checkApiKey(req, res, next) {
+    const apiKeyHeader = req.headers['x-api-key'];
+    if (apiKeyHeader === apiKey) {
+      next();
+    } else {
+      res.status(401).send('Unauthorized');
+    }
+  }
   
-// router.get('/', checkApiKey, async (req, res) => {
-//     try {
-//         const tourDates = await TourDate.find()
-//         res.json(tourDates)
-//     } catch (err) {
-//         res.status(500).json({ message: err.message })
-//     }
-// })
+router.get('/', checkApiKey, async (req, res) => {
+    try {
+        const tourDates = await TourDate.find()
+        res.json(tourDates)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
 
 router.get('/:id', (req, res) => {
     res.send(req.params.id)
