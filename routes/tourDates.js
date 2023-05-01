@@ -1,30 +1,30 @@
-const express = require('express')
-const router = express.Router()
-const TourDate = require('../models/tourDate')
-const apiKey = process.env.API_KEY
+// Importing required modules
+const express = require('express'); // Express framework for building server
+const router = express.Router(); // Creating router instance
+const request = require('request'); // Module to make HTTP requests
+const TourDate = require('../models/tourDate'); // TourDate model for MongoDB schema
+const apiEndpoint = 'https://dttc-api.herokuapp.com'; // API endpoint
 
-router.use((req, res, next) => {
-    req.headers['x-api-key'] = apiKey;
-    next();
-  });
+// Route for getting all tour dates
+router.get('/', (req, res) => {
+  // Set options for request
+  const options = {
+    url: `${apiEndpoint}/tour-dates`, // URL of API endpoint
+    headers: {
+      'Authorization': `Bearer ${process.env.API_KEY}` // Authorization token for API
+    }
+  };
 
-function checkApiKey(req, res, next) {
-    const apiKeyHeader = req.headers['x-api-key'];
-    if (apiKeyHeader === apiKey) {
-      next();
+  // Make API request with the specified options
+  request(options, (error, response, body) => {
+    if (!error && response.statusCode === 200) { // Check if response is successful
+      const tourDates = JSON.parse(body); // Parse JSON response body
+      res.json(tourDates); // Send JSON response of tour dates
     } else {
-      res.status(401).send('Unauthorized');
+      res.status(response.statusCode).send(error); // Send error status and message
     }
-  }
-  
-router.get('/', checkApiKey, async (req, res) => {
-    try {
-        const tourDates = await TourDate.find()
-        res.json(tourDates)
-    } catch (err) {
-        res.status(500).json({ message: err.message })
-    }
-})
+  });
+});
 
 router.get('/:id', (req, res) => {
     res.send(req.params.id)
