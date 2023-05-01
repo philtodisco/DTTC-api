@@ -3,28 +3,45 @@ const router = express.Router()
 const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
 
-router.use((req, res, next) => {
-    req.headers['x-api-key'] = apiKey;
-    next();
+router.get('/proxy', (req, res) => {
+    const options = {
+      url: 'https://dttc-api.herokuapp.com/tourDates',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      }
+    };
+  
+    request(options, (error, response, body) => {
+      if (!error && response.statusCode === 200) {
+        res.send(body);
+      } else {
+        res.status(response.statusCode).send(error);
+      }
+    });
   });
 
-function checkApiKey(req, res, next) {
-    const apiKeyHeader = req.headers['x-api-key'];
-    if (apiKeyHeader === apiKey) {
-      next();
-    } else {
-      res.status(401).send('Unauthorized');
-    }
-  }
+// router.use((req, res, next) => {
+//     req.headers['x-api-key'] = apiKey;
+//     next();
+//   });
+
+// function checkApiKey(req, res, next) {
+//     const apiKeyHeader = req.headers['x-api-key'];
+//     if (apiKeyHeader === apiKey) {
+//       next();
+//     } else {
+//       res.status(401).send('Unauthorized');
+//     }
+//   }
   
-router.get('/', checkApiKey, async (req, res) => {
-    try {
-        const tourDates = await TourDate.find()
-        res.json(tourDates)
-    } catch (err) {
-        res.status(500).json({ message: err.message })
-    }
-})
+// router.get('/', checkApiKey, async (req, res) => {
+//     try {
+//         const tourDates = await TourDate.find()
+//         res.json(tourDates)
+//     } catch (err) {
+//         res.status(500).json({ message: err.message })
+//     }
+// })
 
 router.get('/:id', (req, res) => {
     res.send(req.params.id)
