@@ -6,16 +6,18 @@ const apiKey = process.env.API_KEY
 
 router.get('/', async (req, res) => {
     try {
-      const response = await axios.get('https://dttc-api.herokuapp.com/tourDates', {
-        headers: { 'x-api-key': apiKey }
-      })
-      const tourDates = response.data
-      res.json(tourDates)
-    } catch (err) {
-      console.error(err)
-      res.status(500).send('Server error')
-    }
-  })
+        console.log('Starting request to external API', apiKey)
+        const response = await axios.get('https://dttc-api.herokuapp.com/tourDates', {
+          headers: { 'x-api-key': apiKey }
+        })
+        console.log('Received response from external API')
+        const tourDates = response.data
+        res.json(tourDates)
+      } catch (err) {
+        console.error('Error in tour dates request:', err)
+        res.status(500).send('Server error')
+      }
+    })
   
 
 // router.use((req, res, next) => {
