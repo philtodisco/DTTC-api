@@ -1,27 +1,32 @@
-console.log('we are here')
 const express = require('express')
 const router = express.Router()
 const axios = require('axios')
 const TourDate = require('../models/tourDate')
-const apiKey = process.env.API_KEY
-console.log (apiKey)
 
-router.get('/', async (req, res) => {
-    console.log('we are here')
-    try {
-        console.log('Starting request to external API', apiKey)
-        const response = await axios.get('https://dttc-api.herokuapp.com/tourDates', {
-          headers: { 'x-api-key': apiKey }
-        })
-        console.log('Received response from external API')
-        const tourDates = response.data
-        res.json(tourDates)
-      } catch (err) {
-        console.error('Error in tour dates request:', err)
-        res.status(500).send('Server error')
-      }
-    })
-  
+const API_KEY = process.env.API_KEY;
+const HEROKU_APP_URL = 'https://dttc-api.herokuapp.com';
+
+// Authentication middleware
+function authMiddleware(req, res, next) {
+  const apiKey = req.headers['x-api-key'];
+  if (!apiKey || apiKey !== API_KEY) {
+    res.status(401).json({ error: 'Unauthorized' });
+  } else {
+    next();
+  }
+}
+
+// Proxy route
+router.get('/', authMiddleware, async (req, res) => {
+  try {
+    const response = await axios.get(`${HEROKU_APP_URL}/api/tourDates`);
+    const tourDates = response.data;
+    res.json(tourDates);
+  } catch (err) {
+    console.error('Error in tour dates request:', err);
+    res.status(500).send('Server error');
+  }
+});
 
 // router.use((req, res, next) => {
 //     req.headers['x-api-key'] = apiKey;
