@@ -4,23 +4,21 @@ const axios = require('axios')
 const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
 
-router.get('/proxy', (req, res) => {
-  const options = {
-    url: 'https://dttc-api.herokuapp.com/tourDates',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`
-    }
-  };
-
-  axios(options)
-    .then(response => {
-      res.send(response.data);
-    })
-    .catch(error => {
+// Define a route for the API endpoint
+router.get('/', async (req, res) => {
+    try {
+      const response = await axios.get('https://dttc-api.herokuapp.com/tourDates', {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+      res.json(response.data);
+    } catch (error) {
+      console.error(error);
       res.status(error.response.status).send(error.response.data);
-    });
-});
-
+    }
+  });
+  
 // router.use((req, res, next) => {
 //     req.headers['x-api-key'] = apiKey;
 //     next();
