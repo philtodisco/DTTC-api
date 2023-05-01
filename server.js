@@ -28,7 +28,7 @@ app.use(express.json());
 // Routes
 app.get('/api/tourDates', async (req, res) => {
   try {
-    const response = await axios.get('https://dttc-api.herokuapp.com/tourDates');
+    const response = await axios.get('https://dttc-api.herokuapp.com/api/tourDates');
     const tourDates = response.data;
     res.json(tourDates);
   } catch (err) {
