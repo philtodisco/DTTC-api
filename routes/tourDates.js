@@ -1,8 +1,10 @@
+console.log('we are here')
 const express = require('express')
 const router = express.Router()
 const axios = require('axios')
 const TourDate = require('../models/tourDate')
 const apiKey = process.env.API_KEY
+console.log (apiKey)
 
 router.get('/', async (req, res) => {
     console.log('we are here')
