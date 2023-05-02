@@ -21,7 +21,10 @@ app.use('/tourDates', tourDatesRouter)
 const emailRouter = require('./routes/email')
 app.use('/email', emailRouter)
 
-const proxyRouter = require('./routes/proxy')
-app.use('/proxy/tourDates', proxyRouter)
+const proxyRouter = require('./routes/proxy');
+app.use('/proxy/tourDates', (req, res, next) => {
+  console.log(req.path);
+  next();
+}, proxyRouter);
 
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`))
