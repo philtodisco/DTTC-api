@@ -22,9 +22,12 @@ const emailRouter = require('./routes/email')
 app.use('/email', emailRouter)
 
 const proxyRouter = require('./routes/proxy');
+
 app.use('/proxy/tourDates', (req, res, next) => {
   console.log(req.path);
   next();
-}, proxyRouter);
+});
+
+app.use('/proxy/tourDates', proxyRouter);
 
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`))
