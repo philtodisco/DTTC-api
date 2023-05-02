@@ -21,6 +21,7 @@ router.get('/', checkApiKey, async (req, res) => {
     try {
         const tourDates = await TourDate.find()
         res.json(tourDates)
+        console.log('this worked')
     } catch (err) {
         res.status(500).json({ message: err.message })
     }
